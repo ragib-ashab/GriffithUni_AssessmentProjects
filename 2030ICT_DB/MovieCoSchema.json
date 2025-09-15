@@ -1,0 +1,348 @@
+db.createCollection("titles", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["tconst", "primaryTitle"],
+      properties: {
+        tconst: {
+          bsonType: "string",
+          description: "alphanumeric unique identifier of the title"
+        },
+        titleType: {
+          bsonType: "string",
+          description: "the type/format of the title (e.g., movie, short, tvseries, tvepisode, video, etc)"
+        },
+        primaryTitle: {
+          bsonType: "string",
+          description: "the more popular title / the title used by the filmmakers on promotional materials at the point of release"
+        },
+        originalTitle: {
+          bsonType: "string",
+          description: "original title, in the original language"
+        },
+        isAdult: {
+          bsonType: "int",
+          enum: [0, 1],
+          description: "0: non-adult title; 1: adult title"
+        },
+        startYear: {
+          bsonType: ["int", "null"],
+          description: "represents the release year of a title. In the case of TV Series, it is the series start year"
+        },
+        runtimeMinutes: {
+          bsonType: ["int", "null"],
+          description: "primary runtime of the title, in minutes"
+        },
+        genres: {
+          bsonType: "string",
+          description: "includes up to three genres associated with the title"
+        }
+      }
+    }
+  }
+})
+
+db.createCollection("titles", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["tconst", "primaryTitle"],
+      properties: {
+        tconst: {
+          bsonType: "string",
+          description: "alphanumeric unique identifier of the title"
+        },
+        titleType: {
+          bsonType: "string",
+          description: "the type/format of the title (e.g., movie, short, tvseries, tvepisode, video, etc)"
+        },
+        primaryTitle: {
+          bsonType: "string",
+          description: "the more popular title / the title used by the filmmakers on promotional materials at the point of release"
+        },
+        originalTitle: {
+          bsonType: "string",
+          description: "original title, in the original language"
+        },
+        isAdult: {
+          bsonType: "int",
+          enum: [0, 1],
+          description: "0: non-adult title; 1: adult title"
+        },
+        startYear: {
+          bsonType: "int",
+          description: "represents the release year of a title. In the case of TV Series, it is the series start year"
+        },
+        runtimeMinutes: {
+          bsonType: "int",
+          description: "primary runtime of the title, in minutes"
+        },
+        genres: {
+          bsonType: "string",
+          description: "includes up to three genres associated with the title"
+        }
+      }
+    }
+  }
+})
+
+db.titles.aggregate([
+    {
+        $match: {
+            titleType: "movie",
+        }
+    },
+    {
+        $group: {
+            _id: "$startYear",
+            TotalMovies: { $sum: 1 }
+        }
+    },
+    {
+        $sort: {_id: 1}
+    },
+    {
+        $project: {
+            Year: "$_id",
+            TotalMovies: 1,
+            _id: 0
+        }
+    }
+])
+//Results of the abeve query
+[
+  { TotalMovies: 1, Year: 1896 },
+  { TotalMovies: 1, Year: 1897 },
+  { TotalMovies: 7, Year: 1898 },
+  { TotalMovies: 6, Year: 1899 },
+  { TotalMovies: 6, Year: 1900 },
+  { TotalMovies: 7, Year: 1901 },
+  { TotalMovies: 4, Year: 1902 },
+  { TotalMovies: 3, Year: 1903 },
+  { TotalMovies: 2, Year: 1904 },
+  { TotalMovies: 18, Year: 1905 },
+  { TotalMovies: 23, Year: 1906 },
+  { TotalMovies: 14, Year: 1907 },
+  { TotalMovies: 21, Year: 1908 },
+  { TotalMovies: 89, Year: 1909 },
+  { TotalMovies: 107, Year: 1910 },
+  { TotalMovies: 160, Year: 1911 },
+  { TotalMovies: 342, Year: 1912 },
+  { TotalMovies: 633, Year: 1913 },
+  { TotalMovies: 1076, Year: 1914 },
+  { TotalMovies: 1573, Year: 1915 }
+  { TotalMovies: 2009, Year: 1916 },
+  { TotalMovies: 2083, Year: 1917 },
+  { TotalMovies: 2115, Year: 1918 },
+  { TotalMovies: 2241, Year: 1919 },
+  { TotalMovies: 2443, Year: 1920 },
+  { TotalMovies: 2272, Year: 1921 },
+  { TotalMovies: 1987, Year: 1922 },
+  { TotalMovies: 1757, Year: 1923 },
+  { TotalMovies: 1687, Year: 1924 },
+  { TotalMovies: 1884, Year: 1925 },
+  { TotalMovies: 1858, Year: 1926 },
+  { TotalMovies: 1983, Year: 1927 },
+  { TotalMovies: 1934, Year: 1928 },
+  { TotalMovies: 1858, Year: 1929 },
+  { TotalMovies: 1826, Year: 1930 },
+  { TotalMovies: 1862, Year: 1931 },
+  { TotalMovies: 1900, Year: 1932 },
+  { TotalMovies: 1852, Year: 1933 },
+  { TotalMovies: 1821, Year: 1934 },
+  { TotalMovies: 1827, Year: 1935 }
+  { TotalMovies: 2100, Year: 1936 },
+  { TotalMovies: 1984, Year: 1937 },
+  { TotalMovies: 1828, Year: 1938 },
+  { TotalMovies: 1705, Year: 1939 },
+  { TotalMovies: 1486, Year: 1940 },
+  { TotalMovies: 667, Year: 1941 },
+  { TotalMovies: 527, Year: 1942 },
+  { TotalMovies: 493, Year: 1943 },
+  { TotalMovies: 412, Year: 1944 },
+  { TotalMovies: 422, Year: 1945 },
+  { TotalMovies: 581, Year: 1946 },
+  { TotalMovies: 750, Year: 1947 },
+  { TotalMovies: 812, Year: 1948 },
+  { TotalMovies: 897, Year: 1949 },
+  { TotalMovies: 964, Year: 1950 },
+  { TotalMovies: 973, Year: 1951 },
+  { TotalMovies: 1073, Year: 1952 },
+  { TotalMovies: 1070, Year: 1953 },
+  { TotalMovies: 1118, Year: 1954 },
+  { TotalMovies: 1158, Year: 1955 }
+  { TotalMovies: 1316, Year: 1956 },
+  { TotalMovies: 1357, Year: 1957 },
+  { TotalMovies: 1433, Year: 1958 },
+  { TotalMovies: 1516, Year: 1959 },
+  { TotalMovies: 1603, Year: 1960 },
+  { TotalMovies: 1668, Year: 1961 },
+  { TotalMovies: 1634, Year: 1962 },
+  { TotalMovies: 1648, Year: 1963 },
+  { TotalMovies: 1809, Year: 1964 },
+  { TotalMovies: 2077, Year: 1965 },
+  { TotalMovies: 2066, Year: 1966 },
+  { TotalMovies: 1997, Year: 1967 },
+  { TotalMovies: 2433, Year: 1968 },
+  { TotalMovies: 2461, Year: 1969 },
+  { TotalMovies: 2741, Year: 1970 },
+  { TotalMovies: 2759, Year: 1971 },
+  { TotalMovies: 2577, Year: 1972 },
+  { TotalMovies: 2539, Year: 1973 },
+  { TotalMovies: 2472, Year: 1974 },
+  { TotalMovies: 3199, Year: 1975 }
+  { TotalMovies: 3493, Year: 1976 },
+  { TotalMovies: 3490, Year: 1977 },
+  { TotalMovies: 3590, Year: 1978 },
+  { TotalMovies: 3720, Year: 1979 },
+  { TotalMovies: 3708, Year: 1980 },
+  { TotalMovies: 3702, Year: 1981 },
+  { TotalMovies: 3690, Year: 1982 },
+  { TotalMovies: 3833, Year: 1983 },
+  { TotalMovies: 3945, Year: 1984 },
+  { TotalMovies: 4086, Year: 1985 },
+  { TotalMovies: 3996, Year: 1986 },
+  { TotalMovies: 4046, Year: 1987 },
+  { TotalMovies: 4187, Year: 1988 },
+  { TotalMovies: 4211, Year: 1989 },
+  { TotalMovies: 4460, Year: 1990 },
+  { TotalMovies: 4013, Year: 1991 },
+  { TotalMovies: 3974, Year: 1992 },
+  { TotalMovies: 3889, Year: 1993 },
+  { TotalMovies: 3858, Year: 1994 },
+  { TotalMovies: 3957, Year: 1995 }
+  { TotalMovies: 4046, Year: 1996 },
+  { TotalMovies: 4372, Year: 1997 },
+  { TotalMovies: 4430, Year: 1998 },
+  { TotalMovies: 4527, Year: 1999 },
+  { TotalMovies: 4407, Year: 2000 },
+  { TotalMovies: 4900, Year: 2001 },
+  { TotalMovies: 5269, Year: 2002 },
+  { TotalMovies: 5423, Year: 2003 },
+  { TotalMovies: 5879, Year: 2004 },
+  { TotalMovies: 6739, Year: 2005 },
+  { TotalMovies: 6731, Year: 2006 },
+  { TotalMovies: 7351, Year: 2007 },
+  { TotalMovies: 8724, Year: 2008 },
+  { TotalMovies: 9615, Year: 2009 },
+  { TotalMovies: 10254, Year: 2010 },
+  { TotalMovies: 11054, Year: 2011 },
+  { TotalMovies: 11338, Year: 2012 },
+  { TotalMovies: 10270, Year: 2013 },
+  { TotalMovies: 10382, Year: 2014 },
+  { TotalMovies: 10623, Year: 2015 }
+  { TotalMovies: 11979, Year: 2016 },
+  { TotalMovies: 12583, Year: 2017 },
+  { TotalMovies: 13532, Year: 2018 },
+  { TotalMovies: 14355, Year: 2019 },
+  { TotalMovies: 13287, Year: 2020 },
+  { TotalMovies: 11925, Year: 2021 },
+  { TotalMovies: 2516, Year: 2022 },
+  { TotalMovies: 246, Year: 2023 },
+  { TotalMovies: 41, Year: 2024 },
+  { TotalMovies: 10, Year: 2025 },
+  { TotalMovies: 2, Year: 2026 },
+  { TotalMovies: 5, Year: 2027 },
+  { TotalMovies: 2, Year: 2028 },
+  { TotalMovies: 57219, Year: '\\N' }]
+
+db.titles.aggregate([{
+    $match: {
+      titleType: "movie",
+      startYear: 2021,
+      $and: [
+        {
+          genres: {$regex: "\\bfantasy\\b", $options: "i"}
+        },
+        {
+          genres: {$regex: "\\badventure\\b", $options: "i"}
+        }
+      ]
+    }
+  },
+  {
+    $lookup: {
+      from: "ratings",
+      localField: "tconst",
+      foreignField: "tconst",
+      as: "rating"
+    }
+  },
+  {
+    $unwind: "$rating"
+  },
+  {
+    $sort: {
+      "rating.averageRating": -1
+    }
+  },
+  {
+    $limit: 5
+  },
+  {
+    $project: {
+      _id: 0,
+      primaryTitle: 1,
+      rating: "$rating.averageRating",
+      genres: 1,
+      runtimeMinutes: 1
+    }
+  }
+])
+//Results of the above query
+[
+  {
+    primaryTitle: "Zack Snyder's Justice League",
+    runtimeMinutes: 242,
+    genres: 'Action,Adventure,Fantasy',
+    rating: 8.1
+  },
+  {
+    primaryTitle: 'Realm of Terracotta',
+    runtimeMinutes: 111,
+    genres: 'Adventure,Animation,Fantasy',
+    rating: 7.6
+  },
+  {
+    primaryTitle: 'Kaamelott: First Installment',
+    runtimeMinutes: 120,
+    genres: 'Adventure,Comedy,Fantasy',
+    rating: 7.4
+  },
+  {
+    primaryTitle: 'Strawberry Mansion',
+    runtimeMinutes: 91,
+    genres: 'Adventure,Drama,Fantasy',
+    rating: 6.8
+  },
+  {
+    primaryTitle: 'Brave: Gunjyo Senki',
+    runtimeMinutes: 115,
+    genres: 'Adventure,Fantasy,History',
+    rating: 6.3
+  }
+]
+
+db.titles.updateMany(
+  { $or: [{ runtimeMinutes: { $type: "string" } }, { startYear: { $type: "string" } }] },
+  [
+    {
+      $set: {
+        startYear: {
+          $convert: {
+            input: { $trim: { input: "$startYear" } },
+            to: "int",
+            onError: null
+          }
+        },
+        runtimeMinutes: {
+          $convert: {
+            input: { $trim: { input: "$runtimeMinutes" } },
+            to: "int",
+            onError: null
+          }
+        }
+      }
+    }
+  ]
+)
