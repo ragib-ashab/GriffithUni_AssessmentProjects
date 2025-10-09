@@ -3,8 +3,6 @@ Coursework projects from my computer Science degree at Griffith University.
 
 ---
 
-## 📂 Projects
-
 ### 1811ICT – Python Fundamentals
 - **basicBankManager.py** → Simulates simple banking operations (deposit, withdraw, balance check).  
 - **gocard.py / gocardtypes.py** → Go Card transport system simulation with discounts and balance tracking.  
@@ -20,5 +18,7 @@ Coursework projects from my computer Science degree at Griffith University.
 ### 2802ICT – Artificial Intelligence
 - **maze.py** → Maze solver using search algorithms (BFS, DFS, A*).  
 - **crossword.py** → Crossword puzzle solver using backtracking and constraints.  
-- **generate.py** → Maze generator for testing.  
-- Includes test files (`maze1.txt`, `words1.txt`, etc.).  
+- **generate.py** → Maze generator for testing.
+- **ID3.py** → Implements the ID3 Decision Tree algorithm using entropy and information gain.
+- **nn.py** → Three-layer neural network trained on Fashion-MNIST using mini-batch backpropagation and the delta rule.
+- Includes test files.  
